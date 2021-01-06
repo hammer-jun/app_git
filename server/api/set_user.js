@@ -15,31 +15,32 @@ router.post("/",verify_login);
 
 //参数检查
 router.post("/",(req,res,next)=>{
-    if(req.body.id){
-        return next()
+    if(req.body.name != undefined &&
+        req.body.password != undefined){
+        next()
+    }else{
+        return res.send(return_obj.fail("104","缺少参数"))
     }
-    return res.send(return_obj.fail("104","输入不正确"));
 })
 
 //业务处理
 router.post("/",(req,res,next)=>{
-    let id = req.body.id;
+    let name = req.body.name;
+    let password = req.body.password;
     let sql = `
-    delete from article where id_article = ?
+        update user set password = ? where name = ?
     `
-    pool.query(sql,[id],(err,result,fields)=>{
+    pool.query(sql,[password,name],(err,result,fileds)=>{
         if(err){
             console.error(err);
-            return res.send(return_obj.fail("200","调用数据库出错"));
+            return res.send(return_obj.fail("200","调用数据库发生错误"));
         }
-        console.log(result);
         if(result.affectedRows === 0){
-            return res.send(return_obj.fail("201","找不到说说"));
-        }else{
-            return res.send(return_obj.success({
-                "msg":"删除说说成功"
-            }))
+            return res.send(return_obj.fail("201","找不到对应的用户"));
         }
+        res.send(return_obj.success({
+            'msg':"更新用户信息成功"
+        }))
     })
 })
 
