@@ -15,7 +15,7 @@ router.post("/",verify_login);
 
 //参数检查
 router.post("/",(req,res,next)=>{
-    //  create_date modify_date picture content user_name
+    //  create_date picture content user_name
     if(req.body.content || req.body.picture){
         next()
     }else{
@@ -26,7 +26,7 @@ router.post("/",(req,res,next)=>{
 //业务处理
 router.post("/",(req,res,next)=>{
     let content = req.body.content;
-    let picture = req.body.picture;
+   
     let name;
     if(req.body.name){
         name = req.body.name;
@@ -37,10 +37,10 @@ router.post("/",(req,res,next)=>{
     console.log(time);
     let sql = `
         insert into 
-            talk(user_name,create_date,modify_date,picture,content)
-        value (?,?,?,?,?)
+            talk(create_date,content,user_name)
+        value (?,?,?)
     `
-    pool.query(sql,[time,time,picture,content,name],(err,result,fields)=>{
+    pool.query(sql,[time,content,name],(err,result,fields)=>{
         if(err){
             console.error(err);
             return res.send(return_obj.fail("200","数据调用出错"));
