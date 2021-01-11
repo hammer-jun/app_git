@@ -14,29 +14,35 @@ const router = express.Router();
 router.post("/",verify_login);
 
 //参数检查
-router.post("/",(req,res,next)=>{
-    if(req.body.id){
+router.post("/",(req,res,next)=>
+{
+    if(req.body.id)
+    {
         return next()
     }
     return res.send(return_obj.fail("104","输入不正确"));
 })
 
 //业务处理
-router.post("/",(req,res,next)=>{
+router.post("/",(req,res,next)=>
+{
     let id = req.body.id;
     let sql = `
     delete from talk where id_talk = ?
     `
-    pool.query(sql,[id],(err,result,fields)=>{
+    pool.query(sql,[id],(err,result,fields)=>
+    {
         if(err){
             console.error(err);
             return res.send(return_obj.fail("200","调用数据库出错"));
         }
         console.log(result);
-        if(result.affectedRows === 0){
+        if(result.affectedRows === 0)
+        {
             return res.send(return_obj.fail("201","找不到说说"));
         }else{
-            return res.send(return_obj.success({
+            return res.send(return_obj.success(
+                {
                 "msg":"删除说说成功"
             }))
         }

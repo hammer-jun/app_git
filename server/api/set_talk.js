@@ -14,9 +14,11 @@ const router = express.Router();
 router.post("/",verify_login);
 
 //参数检查
-router.post("/",(req,res,next)=>{
+router.post("/",(req,res,next)=>
+{
     //可以修改的参数有 content user_name
-    if(req.body.content || req.body.user_name && req.body.id){
+    if(req.body.content || req.body.user_name && req.body.id)
+    {
         
         next()
     }else{
@@ -25,28 +27,34 @@ router.post("/",(req,res,next)=>{
 })
 
 //业务处理
-router.post("/",(req,res,next)=>{
+router.post("/",(req,res,next)=>
+{
     let param = {};
     let id = req.body.id;
-    if(req.body.content){
+    if(req.body.content)
+    {
         param.content = req.body.content
     }
-    if(req.body.name){
+    if(req.body.name)
+    {
         param.user_name = req.body.name
     }
     param.create_date = moment().format("YYYY-MM-DD hh-mm-ss");
     let sql = `
     update talk set ? where id_talk = ?
     `
-    pool.query(sql,[param,id],(err,result,fields)=>{
+    pool.query(sql,[param,id],(err,result,fields)=>
+    {
         if(err){
             console.error(err);
             return res.send(return_obj.fail("200","调用数据库出错"));
         }
-        if(result.affectedRows === 0){
+        if(result.affectedRows === 0)
+        {
             return res.send(return_obj.fail("201","找不到对应的说说"));
         }
-        res.send(return_obj.success({
+        res.send(return_obj.success(
+            {
             'msg':"更新说说成功"
         }))
     })

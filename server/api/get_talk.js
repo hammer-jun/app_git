@@ -14,20 +14,24 @@ const router = express.Router();
 router.get("/",verify_login);
 
 //参数检查
-router.get("/",(req,res,next)=>{
+router.get("/",(req,res,next)=>
+{
     next()
 })
 
 //业务处理
-router.get("/",(req,res,next)=>{
+router.get("/",(req,res,next)=>
+{
 
     let name = "%"
-    if(req.query.name){
+    if(req.query.name)
+    {
         name = "%" + req.query.name + "%";
     }
     
     let content = "%"
-    if(req.query.content){
+    if(req.query.content)
+    {
         content = "%" + req.query.content + "%";
     }
 
@@ -38,11 +42,13 @@ router.get("/",(req,res,next)=>{
         content like ?
     `
     pool.query(sql,[name,content],(err,result,fields)=>{
-        if(err){
+        if(err)
+        {
             console.error(err);
             return res.send(return_obj.fail("200","调用数据库出错"));
         }
-        return res.send(return_obj.success({
+        return res.send(return_obj.success(
+            {
             "msg":"获取说说信息成功",
             "data":result
         }))

@@ -15,12 +15,14 @@ router.get("/",verify_login);
 
 
 //参数检查
-router.get("/",(req,res,next)=>{
+router.get("/",(req,res,next)=>
+{
     next()
 })
 
 //业务处理
-router.get("/",(req,res,next)=>{
+router.get("/",(req,res,next)=>
+{
     let name = "%"
     if(req.query.name){
         name = "%" + req.query.name + "%"
@@ -30,12 +32,14 @@ router.get("/",(req,res,next)=>{
         where
             name like ?
     `
-    pool.query(sql,[name],(err,result,fileds)=>{
+    pool.query(sql,[name],(err,result,fileds)=>
+    {
         if(err){
             console.error(err);
             return res.send(return_obj.fail("200","调用数据库出错"));
         }
-        return res.send(return_obj.success({
+        return res.send(return_obj.success(
+            {
             "msg":"获取用户信息成功",
             "data":result
         }))

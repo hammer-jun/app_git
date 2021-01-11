@@ -13,9 +13,11 @@ const router = express.Router();
 router.post("/",verify_login);
 
 //参数检查
-router.post("/",(req,res,next)=>{
+router.post("/",(req,res,next)=>
+{
     if(req.body.name  != undefined &&
-        req.body.password != undefined){
+        req.body.password != undefined)
+        {
         next();
     }else{
         return res.send(return_obj.fail("100","输入不正确"));
@@ -23,19 +25,22 @@ router.post("/",(req,res,next)=>{
 })
 
 //业务处理
-router.post("/",(req,res,next)=>{
+router.post("/",(req,res,next)=>
+{
     let name = req.body.name;
     let password = req.body.password;
     let sql = `
         insert into user(name,password) value(?,?)
     `
-    pool.query(sql,[name,password],(err,result,fileds)=>{
+    pool.query(sql,[name,password],(err,result,fileds)=>
+    {
         if(err){
             console.error(err);
             return res.send(return_obj.fail("200","数据库请求错误"));
         }
         console.log(result);
-        return res.send(return_obj.success({
+        return res.send(return_obj.success(
+            {
             "msg":"添加新用户成功"
         }))
     })

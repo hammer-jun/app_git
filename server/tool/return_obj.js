@@ -1,5 +1,6 @@
 "use strict"
-exports.fail = function(error_code,error_des){
+exports.fail = function(error_code,error_des)
+{
     return {
         'status':0,
         'error_code':error_code,

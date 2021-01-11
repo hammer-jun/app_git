@@ -14,8 +14,10 @@ const router = express.Router();
 router.post("/",verify_login);  
 
 //参数检查
-router.post("/",(req,res,next)=>{
-    if(req.body.name  != undefined ){
+router.post("/",(req,res,next)=>
+{
+    if(req.body.name  != undefined )
+    {
         next();
     }else{
         return res.send(return_obj.fail("100","输入不正确"));
@@ -23,21 +25,25 @@ router.post("/",(req,res,next)=>{
 })
 
 //业务处理
-router.post("/",(req,res,next)=>{
+router.post("/",(req,res,next)=>
+{
     let name = req.body.name;
     let sql = `
         delete from user where name = ?
     `
-    pool.query(sql,[name],(err,result,fileds)=>{
+    pool.query(sql,[name],(err,result,fileds)=>
+    {
         if(err){
             console.error(err);
             return res.send(return_obj.fail("200","数据库请求错误"));
         }
         console.log(result);
-        if(result.affectedRows === 0){
+        if(result.affectedRows === 0)
+        {
             return res.send(return_obj.fail("201","不存在该用户"));
         }else{
-            return res.send(return_obj.success({
+            return res.send(return_obj.success(
+                {
                 "msg":"删除用户成功"
             }))
         }
